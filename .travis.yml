@@ -1,15 +1,27 @@
+# Travis reports this is deprecated and has no effect..
 sudo: required
 services:
+  # Enable docker cli, kind of
   - docker
 
 before_install:
+  # Build test Image with main code
   - docker build -t doss/my-multi-client-test -f ./client/Dockerfile.dev ./client
 
 script:
+  # Test the code
   - docker run doss/my-multi-client-test npm test -- --coverage
 
 after_success:
+  # Build release Images
   - docker build -t doss/my-multi-client ./client
   - docker build -t doss/my-multi-nginx ./nginx
   - docker build -t doss/my-multi-server ./server
   - docker build -t doss/my-multi-worker ./worker
+  # Log in to DockerHub using env. vars stored on travis-ci.org
+  - echo "$DOCKER_PASSWD" | docker login -u "$DOCKER_ID" --password-stdin
+  # Push release images to DockerHub
+  - docker push doss/my-multi-client
+  - docker push doss/my-multi-nginx
+  - docker push doss/my-multi-server
+  - docker push doss/my-multi-worker
