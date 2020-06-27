@@ -19,8 +19,7 @@ after_success:
   - docker build -t doss/my-multi-server ./server
   - docker build -t doss/my-multi-worker ./worker
   # Log in to DockerHub using env. vars stored on travis-ci.org
-  - echo "$DOCKER_ID"
-  - echo "$DOCKER_PASSWD"
+  # NOTE: Characters like !@#$%^&*<> need to be escaped with \ in Travis
   - echo "$DOCKER_PASSWD" | docker login -u "$DOCKER_ID" --password-stdin
   # Push release images to DockerHub
   - docker push doss/my-multi-client
