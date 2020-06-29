@@ -44,6 +44,5 @@ deploy:
     branch: master
   # AWS programatic login and password stored in env vars on Travis
   access_key_id: $AWS_ACCESS_KEY
-  secret_access_key: 
-    # this one probably encrypts the value
-    secure: $AWS_SECRET_KEY
+  # 'secure' option seems to be outdated https://travis-ci.community/t/deploy-fails-with-aws-signaturedoesnotmatch/5835/2
+  secret_access_key: $AWS_SECRET_KEY
