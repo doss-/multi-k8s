@@ -44,6 +44,6 @@ deploy:
     branch: master
   # AWS programatic login and password stored in env vars on Travis
   access_key_id: $AWS_ACCESS_KEY
-  secred_access_key: 
+  secret_access_key: 
     # this one probably encrypts the value
     secure: $AWS_SECRET_KEY
