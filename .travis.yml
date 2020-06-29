@@ -26,3 +26,24 @@ after_success:
   - docker push doss/my-multi-nginx
   - docker push doss/my-multi-server
   - docker push doss/my-multi-worker
+
+deploy:
+  # deploy provider to use (travis should know about one)
+  provider: elasticbeanstalk
+  region: us-east-1
+  # App and Env names taken from AWS Beanstalk
+  app: multi-docker
+  env: MultiDocker-env
+  # bucket name where Travis will upload zipped project files
+  # should match with region - beanstalk will have bucket for every region it initialized into
+  bucket_name: elasticbeanstalk-us-east-1-474383222596
+  # path inside the bucket where to upload zip
+  bucket_path: docker-multi
+  # Only deploy if changes are added into 'master' branch (feature branches will be ignored)
+  on:
+    branch: master
+  # AWS programatic login and password stored in env vars on Travis
+  access_key_id: $AWS_ACCESS_KEY
+  secred_access_key: 
+    # this one probably encrypts the value
+    secure: $AWS_SECRET_KEY
